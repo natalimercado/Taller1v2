@@ -76,5 +76,32 @@ public class LoaderInformacionArchivos {
 		return combos;
 	}
 	
+/**
+	 * Lectura del archivo de Ingredientes
+	 * @param rutaArchivo ruta de la ubicacion del archivo de productos menu en memoria secuendaria
+	 * @return Lista de Ingredientes cargados desde el archivo de productos menu
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static ArrayList<productoIngrediente> leerInfoArchivoproductosIngredientes(String rutaArchivo) throws FileNotFoundException, IOException
+	{
+		ArrayList<productoIngrediente> productosIngredientes = new ArrayList<productoIngrediente>();
+		// "Abrir" el archivo de Ingredientes y leerlo linea por linea usando un BufferedReader
+		BufferedReader br = new BufferedReader(new FileReader(rutaArchivo));
+		String linea = br.readLine();   // Leer la linea con el primer ProductoMenu en el archivo   
+		// Un Ingrediente tiene la forma: nombre;precioBase
+		while (linea != null) // Cuando se llegue al final del archivo, linea tendra el valor null
+		{
+			// Separar los valores que estan en la linea por el caracter ';'
+			String[] partes = linea.split(";");
+			
+			productoIngrediente nuevoIngrediente = new productoIngrediente(partes[0], Integer.parseInt(partes[1]));   // Creacion de un objeto ingrediente con su nombre y precio base
+			productosIngredientes.add( nuevoIngrediente );
 
+			linea = br.readLine(); // leer la proxima linea en el archivo con un nuevo ProductoMenu 
+		}
+		br.close();
+		return productosIngredientes;
+	}
+	
 }
